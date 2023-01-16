@@ -1,3 +1,45 @@
+library(readxl)
+library(corrplot)
+stat<- read_excel("month.xlsx")
+plot(stat[,2:6])
+stat_cor<- cor(stat)
+stat_xy<-stat[,-c(1)]
+##상관분석 표
+corrplot(stat_cor,
+     method="color",
+     type="lower",
+     order="hclust",
+     addCoef.col="black",
+     tl.col="black",
+     tl.srt=45,
+     diag=F)
+stat_cor #연도 포함
+plot(stat_xy)
+
+statxy_cor<-cor(stat_xy)
+corrplot(statxy_cor,
+        method="color",
+        type="lower",
+        order="hclust",
+        addCoef.col="black",
+        tl.col="black",
+        tl.srt=45,
+        diag=F)#연도 비포함
+
+##두 변수간 상관관계
+library(Hmisc)
+rcorr(as.matrix(stat_xy), type="pearson")#피어슨 상관걔수 + H0에대한 피벨류값
+
+
+###다중회귀분석
+multi_stat<- lm(stat$건수 ~ stat$`풍속(m/s)`
+              +stat$`습도(%)`+stat$`면적(ha)`+stat$`피해금액(백만원)`, data=stat)
+summary(multi_stat)
+
+
+###회귀모형
+plot(lm_xy)
+plot(multi_stat)
 ###########################전처리#############################
 library(readxl)
 library(tidyverse)
